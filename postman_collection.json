@@ -1,87 +1,132 @@
 {
   "info": {
+    "_postman_id": "6629878a-ec53-4a38-973e-62ba497a184f",
     "name": "Task Microservice",
+    "description": "API collection for the Task Microservice",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "API collection for the Task Microservice"
+    "_exporter_id": "1709735"
   },
   "item": [
-    {
-      "name": "Service Info",
-      "request": {
-        "method": "GET",
-        "url": "http://localhost:3001/dev/"
-      }
-    },
     {
       "name": "Create Task",
       "request": {
         "method": "POST",
-        "url": "http://localhost:3001/dev/tasks",
-        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
         "body": {
           "mode": "raw",
           "raw": "{\n  \"title\": \"My first task\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/dev/tasks",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "dev",
+            "tasks"
+          ]
         }
-      }
-    },
-    {
-      "name": "Create Task (with status)",
-      "request": {
-        "method": "POST",
-        "url": "http://localhost:3001/dev/tasks",
-        "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"title\": \"Completed task\",\n  \"status\": \"done\"\n}"
-        }
-      }
+      },
+      "response": []
     },
     {
       "name": "List All Tasks",
       "request": {
         "method": "GET",
-        "url": "http://localhost:3001/dev/tasks"
-      }
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3001/dev/tasks",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "dev",
+            "tasks"
+          ]
+        }
+      },
+      "response": []
     },
     {
       "name": "Get Task by ID",
       "request": {
         "method": "GET",
-        "url": "http://localhost:3001/dev/tasks/{{task_id}}"
-      }
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3001/dev/tasks/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "dev",
+            "tasks",
+            ""
+          ]
+        }
+      },
+      "response": []
     },
     {
       "name": "Delete Task",
       "request": {
         "method": "DELETE",
-        "url": "http://localhost:3001/dev/tasks/{{task_id}}"
-      }
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3001/dev/tasks/3e8e8fec-852b-4d92-9300-1bc1ed937b1a",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "dev",
+            "tasks",
+            "3e8e8fec-852b-4d92-9300-1bc1ed937b1a"
+          ]
+        }
+      },
+      "response": []
     },
     {
-      "name": "Backend - Add Task",
+      "name": "Update Task Status",
       "request": {
-        "method": "POST",
-        "url": "http://localhost:3000/api/add-task",
-        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "method": "PATCH",
+        "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"title\": \"Task via backend\"\n}"
+          "raw": "{\n    \"status\": \"pending\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3001/dev/tasks/aa551041-0a75-4fed-ac32-4d37c62e408b",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "dev",
+            "tasks",
+            "aa551041-0a75-4fed-ac32-4d37c62e408b"
+          ]
         }
-      }
-    },
-    {
-      "name": "Backend - List Tasks",
-      "request": {
-        "method": "GET",
-        "url": "http://localhost:3000/api/tasks"
-      }
-    },
-    {
-      "name": "Backend - Delete Task",
-      "request": {
-        "method": "DELETE",
-        "url": "http://localhost:3000/api/task/{{task_id}}"
-      }
+      },
+      "response": []
     }
   ]
 }
