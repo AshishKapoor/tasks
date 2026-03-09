@@ -1,14 +1,14 @@
 const express = require("express");
 const cors = require("cors");
-const morgan = require("morgan");
+const { requestLogger } = require("./middleware/logger");
+const { MICROSERVICE_URL } = require("./utils/proxy");
+const tasksRouter = require("./routes/tasks");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const MICROSERVICE_URL =
-  process.env.MICROSERVICE_URL || "http://localhost:3001/dev";
 
 app.use(cors());
-app.use(morgan("combined"));
+app.use(requestLogger);
 app.use(express.json());
 
 app.get("/", (_req, res) => {
@@ -19,66 +19,7 @@ app.get("/", (_req, res) => {
   });
 });
 
-app.post("/api/add-task", async (req, res) => {
-  try {
-    const response = await fetch(`${MICROSERVICE_URL}/tasks`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(req.body),
-    });
-    const data = await response.json();
-    res.status(response.status).json(data);
-  } catch (err) {
-    console.error("Error creating task:", err.message);
-    res.status(502).json({ error: "Microservice unavailable" });
-  }
-});
-
-app.get("/api/tasks", async (_req, res) => {
-  try {
-    const response = await fetch(`${MICROSERVICE_URL}/tasks`);
-    const data = await response.json();
-    res.status(response.status).json(data);
-  } catch (err) {
-    console.error("Error fetching tasks:", err.message);
-    res.status(502).json({ error: "Microservice unavailable" });
-  }
-});
-
-app.patch("/api/task/:id", async (req, res) => {
-  try {
-    const response = await fetch(
-      `${MICROSERVICE_URL}/tasks/${encodeURIComponent(req.params.id)}`,
-      {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(req.body),
-      },
-    );
-    const data = await response.json();
-    res.status(response.status).json(data);
-  } catch (err) {
-    console.error("Error updating task:", err.message);
-    res.status(502).json({ error: "Microservice unavailable" });
-  }
-});
-
-app.delete("/api/task/:id", async (req, res) => {
-  try {
-    const response = await fetch(
-      `${MICROSERVICE_URL}/tasks/${encodeURIComponent(req.params.id)}`,
-      { method: "DELETE" },
-    );
-    if (response.status === 204) {
-      return res.status(204).send();
-    }
-    const data = await response.json();
-    res.status(response.status).json(data);
-  } catch (err) {
-    console.error("Error deleting task:", err.message);
-    res.status(502).json({ error: "Microservice unavailable" });
-  }
-});
+app.use("/api", tasksRouter);
 
 app.use((_req, res) => {
   res.status(404).json({ error: "Not found" });
