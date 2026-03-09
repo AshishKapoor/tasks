@@ -2,7 +2,7 @@
 
 A complete end-to-end task management application with three services:
 
-1. **Microservice** — Serverless Express API managing tasks (in-memory storage)
+1. **Microservice** — Serverless Express API managing tasks (SQLite database)
 2. **Backend** — Express proxy service that forwards requests to the microservice
 3. **Frontend** — React UI for adding, listing, and deleting tasks
 
@@ -14,12 +14,12 @@ A complete end-to-end task management application with three services:
 │  React/Vite │      │  Express    │      │  Serverless/     │
 │  :5173      │      │  :3000      │      │  Express  :3001  │
 └────────────┘      └────────────┘      └──────────────────┘
-   (Browser)          (Proxy)             (In-memory store)
+   (Browser)          (Proxy)             (SQLite store)
 ```
 
 - **Frontend** runs in the browser and calls the backend at `http://0.0.0.0:3000`
 - **Backend** proxies API requests to the microservice at `http://microservice:3001/dev` (Docker) or `http://0.0.0.0:3001/dev` (local)
-- **Microservice** is a serverless-style Express app running via `serverless-offline`, stores tasks in memory
+- **Microservice** is a serverless-style Express app running via `serverless-offline`, stores tasks in a SQLite database (`tasks.db`)
 
 ## Project Structure
 
@@ -27,7 +27,7 @@ A complete end-to-end task management application with three services:
 project/
   microservice/          # Serverless task API (Part 1)
     app.js               # Express app + serverless handler
-    store.js             # In-memory task store
+    store.js             # SQLite task store
     routes/tasks.js      # Task CRUD routes
     tests/tasks.test.js  # Jest test suite
     serverless.yml       # Serverless Framework config
@@ -58,11 +58,11 @@ docker compose up --build
 
 All three services start automatically:
 
-| Service      | URL                        |
-|------------- |----------------------------|
-| Frontend     | http://0.0.0.0:5173       |
-| Backend      | http://0.0.0.0:3000       |
-| Microservice | http://0.0.0.0:3001/dev   |
+| Service      | URL                     |
+| ------------ | ----------------------- |
+| Frontend     | http://0.0.0.0:5173     |
+| Backend      | http://0.0.0.0:3000     |
+| Microservice | http://0.0.0.0:3001/dev |
 
 ### Running Locally (without Docker)
 
@@ -109,6 +109,7 @@ npm run test:coverage
 ### Test Output
 
 The test suite covers:
+
 - **Create task** — valid creation, default status, missing/invalid fields, invalid status
 - **Get tasks** — list all, empty list, get by ID, not found
 - **Delete task** — successful deletion, not found
@@ -119,6 +120,7 @@ The test suite covers:
 ### Microservice (direct) — `http://0.0.0.0:3001/dev`
 
 **Create a task:**
+
 ```bash
 curl -X POST http://0.0.0.0:3001/dev/tasks \
   -H "Content-Type: application/json" \
@@ -126,6 +128,7 @@ curl -X POST http://0.0.0.0:3001/dev/tasks \
 ```
 
 **Create a task with status:**
+
 ```bash
 curl -X POST http://0.0.0.0:3001/dev/tasks \
   -H "Content-Type: application/json" \
@@ -133,16 +136,19 @@ curl -X POST http://0.0.0.0:3001/dev/tasks \
 ```
 
 **List all tasks:**
+
 ```bash
 curl http://0.0.0.0:3001/dev/tasks
 ```
 
 **Get task by ID:**
+
 ```bash
 curl http://0.0.0.0:3001/dev/tasks/<task-id>
 ```
 
 **Delete a task:**
+
 ```bash
 curl -X DELETE http://0.0.0.0:3001/dev/tasks/<task-id>
 ```
@@ -150,6 +156,7 @@ curl -X DELETE http://0.0.0.0:3001/dev/tasks/<task-id>
 ### Backend API — `http://0.0.0.0:3000`
 
 **Add a task:**
+
 ```bash
 curl -X POST http://0.0.0.0:3000/api/add-task \
   -H "Content-Type: application/json" \
@@ -157,11 +164,13 @@ curl -X POST http://0.0.0.0:3000/api/add-task \
 ```
 
 **List all tasks:**
+
 ```bash
 curl http://0.0.0.0:3000/api/tasks
 ```
 
 **Delete a task:**
+
 ```bash
 curl -X DELETE http://0.0.0.0:3000/api/task/<task-id>
 ```
@@ -188,11 +197,11 @@ Import `postman_collection.json` into Postman to test all endpoints.
 
 ## HTTP Status Codes
 
-| Code | Meaning                           |
-|------|-----------------------------------|
-| 200  | Success                           |
-| 201  | Task created                      |
-| 204  | Task deleted (no content)         |
-| 400  | Validation error / invalid input  |
-| 404  | Task or route not found           |
-| 502  | Microservice unavailable (backend)|
+| Code | Meaning                            |
+| ---- | ---------------------------------- |
+| 200  | Success                            |
+| 201  | Task created                       |
+| 204  | Task deleted (no content)          |
+| 400  | Validation error / invalid input   |
+| 404  | Task or route not found            |
+| 502  | Microservice unavailable (backend) |
