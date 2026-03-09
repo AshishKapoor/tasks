@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Serverless
+.serverless/
+
+# Logs
+logs/
+*.log
+
+# Coverage
+coverage/
+
+# Database
+*.db
+data/
+
+# Environment
+.env
+.env.local

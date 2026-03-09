@@ -1,0 +1,20 @@
+{
+  "name": "task-microservice",
+  "version": "1.0.0",
+  "description": "Serverless task management microservice",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest --verbose",
+    "test:coverage": "jest --coverage"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "serverless-http": "^3.2.0",
+    "sql.js": "^1.11.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4",
+    "serverless-offline": "^13.3.0"
+  }
+}
