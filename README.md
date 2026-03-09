@@ -112,6 +112,7 @@ The test suite covers:
 
 - **Create task** — valid creation, default status, missing/invalid fields, invalid status
 - **Get tasks** — list all, empty list, get by ID, not found
+- **Update task** — status change, validation, not found
 - **Delete task** — successful deletion, not found
 - **Invalid requests** — unknown routes, malformed JSON
 
@@ -147,6 +148,14 @@ curl http://localhost:3001/dev/tasks
 curl http://localhost:3001/dev/tasks/<task-id>
 ```
 
+**Update a task status:**
+
+```bash
+curl -X PATCH http://localhost:3001/dev/tasks/<task-id> \
+  -H "Content-Type: application/json" \
+  -d '{"status": "done"}'
+```
+
 **Delete a task:**
 
 ```bash
@@ -167,6 +176,14 @@ curl -X POST http://localhost:3000/api/add-task \
 
 ```bash
 curl http://localhost:3000/api/tasks
+```
+
+**Update a task status:**
+
+```bash
+curl -X PATCH http://localhost:3000/api/task/<task-id> \
+  -H "Content-Type: application/json" \
+  -d '{"status": "done"}'
 ```
 
 **Delete a task:**
