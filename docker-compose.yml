@@ -29,7 +29,7 @@ services:
       dockerfile: Dockerfile
     container_name: task-frontend
     environment:
-      VITE_API_URL: http://0.0.0.0:3000
+      VITE_API_URL: http://localhost:3000
     depends_on:
       - backend
     ports:

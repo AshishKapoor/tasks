@@ -17,8 +17,8 @@ A complete end-to-end task management application with three services:
    (Browser)          (Proxy)             (SQLite store)
 ```
 
-- **Frontend** runs in the browser and calls the backend at `http://0.0.0.0:3000`
-- **Backend** proxies API requests to the microservice at `http://microservice:3001/dev` (Docker) or `http://0.0.0.0:3001/dev` (local)
+- **Frontend** runs in the browser and calls the backend at `http://localhost:3000`
+- **Backend** proxies API requests to the microservice at `http://microservice:3001/dev` (Docker) or `http://localhost:3001/dev` (local)
 - **Microservice** is a serverless-style Express app running via `serverless-offline`, stores tasks in a SQLite database (`tasks.db`)
 
 ## Project Structure
@@ -58,11 +58,11 @@ docker compose up --build
 
 All three services start automatically:
 
-| Service      | URL                     |
-| ------------ | ----------------------- |
-| Frontend     | http://0.0.0.0:5173     |
-| Backend      | http://0.0.0.0:3000     |
-| Microservice | http://0.0.0.0:3001/dev |
+| Service      | URL                       |
+| ------------ | ------------------------- |
+| Frontend     | http://localhost:5173     |
+| Backend      | http://localhost:3000     |
+| Microservice | http://localhost:3001/dev |
 
 ### Running Locally (without Docker)
 
@@ -79,7 +79,7 @@ npx sls offline --httpPort 3001
 ```bash
 cd backend
 npm install
-MICROSERVICE_URL=http://0.0.0.0:3001/dev node server.js
+MICROSERVICE_URL=http://localhost:3001/dev node server.js
 ```
 
 **3. Frontend**
@@ -87,7 +87,7 @@ MICROSERVICE_URL=http://0.0.0.0:3001/dev node server.js
 ```bash
 cd frontend
 npm install
-VITE_API_URL=http://0.0.0.0:3000 npm run dev
+VITE_API_URL=http://localhost:3000 npm run dev
 ```
 
 ## How to Test
@@ -117,12 +117,12 @@ The test suite covers:
 
 ## How to Call APIs
 
-### Microservice (direct) — `http://0.0.0.0:3001/dev`
+### Microservice (direct) — `http://localhost:3001/dev`
 
 **Create a task:**
 
 ```bash
-curl -X POST http://0.0.0.0:3001/dev/tasks \
+curl -X POST http://localhost:3001/dev/tasks \
   -H "Content-Type: application/json" \
   -d '{"title": "Buy groceries"}'
 ```
@@ -130,7 +130,7 @@ curl -X POST http://0.0.0.0:3001/dev/tasks \
 **Create a task with status:**
 
 ```bash
-curl -X POST http://0.0.0.0:3001/dev/tasks \
+curl -X POST http://localhost:3001/dev/tasks \
   -H "Content-Type: application/json" \
   -d '{"title": "Completed task", "status": "done"}'
 ```
@@ -138,27 +138,27 @@ curl -X POST http://0.0.0.0:3001/dev/tasks \
 **List all tasks:**
 
 ```bash
-curl http://0.0.0.0:3001/dev/tasks
+curl http://localhost:3001/dev/tasks
 ```
 
 **Get task by ID:**
 
 ```bash
-curl http://0.0.0.0:3001/dev/tasks/<task-id>
+curl http://localhost:3001/dev/tasks/<task-id>
 ```
 
 **Delete a task:**
 
 ```bash
-curl -X DELETE http://0.0.0.0:3001/dev/tasks/<task-id>
+curl -X DELETE http://localhost:3001/dev/tasks/<task-id>
 ```
 
-### Backend API — `http://0.0.0.0:3000`
+### Backend API — `http://localhost:3000`
 
 **Add a task:**
 
 ```bash
-curl -X POST http://0.0.0.0:3000/api/add-task \
+curl -X POST http://localhost:3000/api/add-task \
   -H "Content-Type: application/json" \
   -d '{"title": "Buy groceries"}'
 ```
@@ -166,13 +166,13 @@ curl -X POST http://0.0.0.0:3000/api/add-task \
 **List all tasks:**
 
 ```bash
-curl http://0.0.0.0:3000/api/tasks
+curl http://localhost:3000/api/tasks
 ```
 
 **Delete a task:**
 
 ```bash
-curl -X DELETE http://0.0.0.0:3000/api/task/<task-id>
+curl -X DELETE http://localhost:3000/api/task/<task-id>
 ```
 
 ### Postman

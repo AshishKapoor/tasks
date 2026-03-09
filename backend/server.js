@@ -5,7 +5,7 @@ const morgan = require("morgan");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const MICROSERVICE_URL =
-  process.env.MICROSERVICE_URL || "http://0.0.0.0:3001/dev";
+  process.env.MICROSERVICE_URL || "http://localhost:3001/dev";
 
 app.use(cors());
 app.use(morgan("combined"));
@@ -53,7 +53,7 @@ app.patch("/api/task/:id", async (req, res) => {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(req.body),
-      }
+      },
     );
     const data = await response.json();
     res.status(response.status).json(data);
@@ -67,7 +67,7 @@ app.delete("/api/task/:id", async (req, res) => {
   try {
     const response = await fetch(
       `${MICROSERVICE_URL}/tasks/${encodeURIComponent(req.params.id)}`,
-      { method: "DELETE" }
+      { method: "DELETE" },
     );
     if (response.status === 204) {
       return res.status(204).send();

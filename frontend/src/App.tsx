@@ -7,7 +7,7 @@ interface Task {
   createdAt: string;
 }
 
-const API_URL = import.meta.env.VITE_API_URL || "http://0.0.0.0:3000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -85,10 +85,20 @@ function App() {
   };
 
   return (
-    <div style={{ maxWidth: 640, margin: "40px auto", fontFamily: "sans-serif", padding: "0 16px" }}>
+    <div
+      style={{
+        maxWidth: 640,
+        margin: "40px auto",
+        fontFamily: "sans-serif",
+        padding: "0 16px",
+      }}
+    >
       <h1>Task Manager</h1>
 
-      <form onSubmit={addTask} style={{ display: "flex", gap: 8, marginBottom: 24 }}>
+      <form
+        onSubmit={addTask}
+        style={{ display: "flex", gap: 8, marginBottom: 24 }}
+      >
         <input
           type="text"
           value={title}
@@ -111,28 +121,67 @@ function App() {
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
           <thead>
             <tr>
-              <th style={{ textAlign: "left", borderBottom: "2px solid #ccc", padding: 8 }}>Title</th>
-              <th style={{ textAlign: "left", borderBottom: "2px solid #ccc", padding: 8 }}>Status</th>
-              <th style={{ textAlign: "left", borderBottom: "2px solid #ccc", padding: 8 }}>Created</th>
-              <th style={{ borderBottom: "2px solid #ccc", padding: 8 }}>Actions</th>
+              <th
+                style={{
+                  textAlign: "left",
+                  borderBottom: "2px solid #ccc",
+                  padding: 8,
+                }}
+              >
+                Title
+              </th>
+              <th
+                style={{
+                  textAlign: "left",
+                  borderBottom: "2px solid #ccc",
+                  padding: 8,
+                }}
+              >
+                Status
+              </th>
+              <th
+                style={{
+                  textAlign: "left",
+                  borderBottom: "2px solid #ccc",
+                  padding: 8,
+                }}
+              >
+                Created
+              </th>
+              <th style={{ borderBottom: "2px solid #ccc", padding: 8 }}>
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>
             {tasks.map((task) => (
               <tr key={task.id}>
-                <td style={{ padding: 8, borderBottom: "1px solid #eee" }}>{task.title}</td>
-                <td style={{ padding: 8, borderBottom: "1px solid #eee" }}>{task.status}</td>
+                <td style={{ padding: 8, borderBottom: "1px solid #eee" }}>
+                  {task.title}
+                </td>
+                <td style={{ padding: 8, borderBottom: "1px solid #eee" }}>
+                  {task.status}
+                </td>
                 <td style={{ padding: 8, borderBottom: "1px solid #eee" }}>
                   {new Date(task.createdAt).toLocaleString()}
                 </td>
-                <td style={{ padding: 8, borderBottom: "1px solid #eee", textAlign: "center" }}>
+                <td
+                  style={{
+                    padding: 8,
+                    borderBottom: "1px solid #eee",
+                    textAlign: "center",
+                  }}
+                >
                   <button
                     onClick={() => toggleStatus(task)}
                     style={{ marginRight: 8, cursor: "pointer" }}
                   >
                     {task.status === "pending" ? "Mark Done" : "Mark Pending"}
                   </button>
-                  <button onClick={() => deleteTask(task.id)} style={{ color: "red", cursor: "pointer" }}>
+                  <button
+                    onClick={() => deleteTask(task.id)}
+                    style={{ color: "red", cursor: "pointer" }}
+                  >
                     Delete
                   </button>
                 </td>

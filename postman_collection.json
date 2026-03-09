@@ -9,17 +9,15 @@
       "name": "Service Info",
       "request": {
         "method": "GET",
-        "url": "http://0.0.0.0:3001/dev/"
+        "url": "http://localhost:3001/dev/"
       }
     },
     {
       "name": "Create Task",
       "request": {
         "method": "POST",
-        "url": "http://0.0.0.0:3001/dev/tasks",
-        "header": [
-          { "key": "Content-Type", "value": "application/json" }
-        ],
+        "url": "http://localhost:3001/dev/tasks",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
         "body": {
           "mode": "raw",
           "raw": "{\n  \"title\": \"My first task\"\n}"
@@ -30,10 +28,8 @@
       "name": "Create Task (with status)",
       "request": {
         "method": "POST",
-        "url": "http://0.0.0.0:3001/dev/tasks",
-        "header": [
-          { "key": "Content-Type", "value": "application/json" }
-        ],
+        "url": "http://localhost:3001/dev/tasks",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
         "body": {
           "mode": "raw",
           "raw": "{\n  \"title\": \"Completed task\",\n  \"status\": \"done\"\n}"
@@ -44,31 +40,29 @@
       "name": "List All Tasks",
       "request": {
         "method": "GET",
-        "url": "http://0.0.0.0:3001/dev/tasks"
+        "url": "http://localhost:3001/dev/tasks"
       }
     },
     {
       "name": "Get Task by ID",
       "request": {
         "method": "GET",
-        "url": "http://0.0.0.0:3001/dev/tasks/{{task_id}}"
+        "url": "http://localhost:3001/dev/tasks/{{task_id}}"
       }
     },
     {
       "name": "Delete Task",
       "request": {
         "method": "DELETE",
-        "url": "http://0.0.0.0:3001/dev/tasks/{{task_id}}"
+        "url": "http://localhost:3001/dev/tasks/{{task_id}}"
       }
     },
     {
       "name": "Backend - Add Task",
       "request": {
         "method": "POST",
-        "url": "http://0.0.0.0:3000/api/add-task",
-        "header": [
-          { "key": "Content-Type", "value": "application/json" }
-        ],
+        "url": "http://localhost:3000/api/add-task",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
         "body": {
           "mode": "raw",
           "raw": "{\n  \"title\": \"Task via backend\"\n}"
@@ -79,14 +73,14 @@
       "name": "Backend - List Tasks",
       "request": {
         "method": "GET",
-        "url": "http://0.0.0.0:3000/api/tasks"
+        "url": "http://localhost:3000/api/tasks"
       }
     },
     {
       "name": "Backend - Delete Task",
       "request": {
         "method": "DELETE",
-        "url": "http://0.0.0.0:3000/api/task/{{task_id}}"
+        "url": "http://localhost:3000/api/task/{{task_id}}"
       }
     }
   ]

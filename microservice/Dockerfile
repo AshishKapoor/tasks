@@ -13,4 +13,4 @@ RUN npm install -g serverless@3
 
 EXPOSE 3001
 
-CMD ["sls", "offline", "--host", "0.0.0.0", "--httpPort", "3001"]
+CMD ["sls", "offline", "--host", "localhost", "--httpPort", "3001"]
