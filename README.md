@@ -6,6 +6,9 @@ A complete end-to-end task management application with three services:
 2. **Backend** — Express proxy service that forwards requests to the microservice
 3. **Frontend** — React UI for adding, listing, and deleting tasks
 
+## Screenshot
+<img width="1108" height="765" alt="Screenshot 2026-03-09 at 6 06 59 PM" src="https://github.com/user-attachments/assets/01aabf86-22a9-4fbc-9e44-c6e1a7d4cde8" />
+
 ## Architecture
 
 ```
