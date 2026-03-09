@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 
 interface Task {
   id: string;
@@ -7,6 +7,15 @@ interface Task {
   createdAt: string;
 }
 
+type FilterType = "all" | "pending" | "done";
+type SortType =
+  | "date-desc"
+  | "date-asc"
+  | "title-asc"
+  | "title-desc"
+  | "status-pending"
+  | "status-done";
+
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 function App() {
@@ -14,6 +23,8 @@ function App() {
   const [title, setTitle] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState<FilterType>("all");
+  const [sort, setSort] = useState<SortType>("date-desc");
 
   const fetchTasks = useCallback(async () => {
     try {
@@ -84,6 +95,51 @@ function App() {
     }
   };
 
+  // Filter and sort tasks
+  const filteredAndSortedTasks = useMemo(() => {
+    // Filter tasks
+    let filtered = tasks;
+    if (filter === "pending") {
+      filtered = tasks.filter((task) => task.status === "pending");
+    } else if (filter === "done") {
+      filtered = tasks.filter((task) => task.status === "done");
+    }
+
+    // Sort tasks
+    const sorted = [...filtered].sort((a, b) => {
+      switch (sort) {
+        case "date-desc":
+          return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+        case "date-asc":
+          return (
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+          );
+        case "title-asc":
+          return a.title.localeCompare(b.title);
+        case "title-desc":
+          return b.title.localeCompare(a.title);
+        case "status-pending":
+          if (a.status === "pending" && b.status === "done") return -1;
+          if (a.status === "done" && b.status === "pending") return 1;
+          return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+        case "status-done":
+          if (a.status === "done" && b.status === "pending") return -1;
+          if (a.status === "pending" && b.status === "done") return 1;
+          return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+        default:
+          return 0;
+      }
+    });
+
+    return sorted;
+  }, [tasks, filter, sort]);
+
   return (
     <div
       style={{
@@ -111,12 +167,66 @@ function App() {
         </button>
       </form>
 
+      {/* Filter and Sort Controls */}
+      <div
+        style={{
+          display: "flex",
+          gap: 16,
+          marginBottom: 24,
+          alignItems: "center",
+          flexWrap: "wrap",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <label htmlFor="filter" style={{ fontSize: 14, fontWeight: "bold" }}>
+            Filter:
+          </label>
+          <select
+            id="filter"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value as FilterType)}
+            style={{ padding: 6, fontSize: 14 }}
+          >
+            <option value="all">All Tasks</option>
+            <option value="pending">Pending Only</option>
+            <option value="done">Done Only</option>
+          </select>
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <label htmlFor="sort" style={{ fontSize: 14, fontWeight: "bold" }}>
+            Sort by:
+          </label>
+          <select
+            id="sort"
+            value={sort}
+            onChange={(e) => setSort(e.target.value as SortType)}
+            style={{ padding: 6, fontSize: 14 }}
+          >
+            <option value="date-desc">Date (Newest First)</option>
+            <option value="date-asc">Date (Oldest First)</option>
+            <option value="title-asc">Title (A-Z)</option>
+            <option value="title-desc">Title (Z-A)</option>
+            <option value="status-pending">Status (Pending First)</option>
+            <option value="status-done">Status (Done First)</option>
+          </select>
+        </div>
+
+        <div style={{ fontSize: 14, color: "#666" }}>
+          {filteredAndSortedTasks.length} of {tasks.length} tasks
+        </div>
+      </div>
+
       {error && <p style={{ color: "red", marginBottom: 16 }}>{error}</p>}
 
       {loading ? (
         <p>Loading...</p>
-      ) : tasks.length === 0 ? (
-        <p>No tasks yet. Add one above.</p>
+      ) : filteredAndSortedTasks.length === 0 ? (
+        <p>
+          {filter === "all"
+            ? "No tasks yet. Add one above."
+            : `No ${filter} tasks found.`}
+        </p>
       ) : (
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
           <thead>
@@ -154,7 +264,7 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            {tasks.map((task) => (
+            {filteredAndSortedTasks.map((task) => (
               <tr key={task.id}>
                 <td style={{ padding: 8, borderBottom: "1px solid #eee" }}>
                   {task.title}

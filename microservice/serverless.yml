@@ -18,7 +18,3 @@ functions:
 
 plugins:
   - serverless-offline
-
-custom:
-  serverless-offline:
-    noCookies: true
