@@ -1,0 +1,39 @@
+services:
+  microservice:
+    build:
+      context: ./microservice
+      dockerfile: Dockerfile
+    container_name: task-microservice
+    volumes:
+      - microservice_data:/app/data
+    environment:
+      DB_PATH: /app/data/tasks.db
+    ports:
+      - "3001:3001"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: task-backend
+    environment:
+      MICROSERVICE_URL: http://microservice:3001/dev
+    depends_on:
+      - microservice
+    ports:
+      - "3000:3000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: task-frontend
+    environment:
+      VITE_API_URL: http://0.0.0.0:3000
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+
+volumes:
+  microservice_data:
