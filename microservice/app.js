@@ -15,6 +15,7 @@ function createApp() {
         "POST /tasks": "Create a new task",
         "GET /tasks": "List all tasks",
         "GET /tasks/:id": "Get a task by ID",
+        "PATCH /tasks/:id": "Update a task status",
         "DELETE /tasks/:id": "Delete a task",
       },
     });
