@@ -39,7 +39,7 @@ export function TasksPage() {
         <CardHeader>
           <CardTitle className="text-3xl tracking-tight">Task Control Center</CardTitle>
           <CardDescription>
-            A refactored frontend using React Query, TanStack Table, and shadcn UI components.
+            Let' get productive! Create, manage, and conquer your tasks with ease. Your productivity hub awaits! 🚀
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
