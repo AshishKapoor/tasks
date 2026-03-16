@@ -1,5 +1,6 @@
 services:
   microservice:
+    platform: linux/amd64
     build:
       context: ./microservice
       dockerfile: Dockerfile
@@ -12,6 +13,7 @@ services:
       - "3001:3001"
 
   backend:
+    platform: linux/amd64
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -24,6 +26,7 @@ services:
       - "3000:3000"
 
   frontend:
+    platform: linux/amd64
     build:
       context: ./frontend
       dockerfile: Dockerfile
