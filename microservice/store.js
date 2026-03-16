@@ -73,6 +73,7 @@ class TaskStore {
     db.run("UPDATE tasks SET status = ? WHERE id = ?", [fields.status, id]);
     const changes = db.getRowsModified();
     if (changes === 0) return null;
+    save();
     return this.getById(id);
   }
 
