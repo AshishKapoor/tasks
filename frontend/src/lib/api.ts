@@ -10,6 +10,10 @@ async function parseResponse<T>(response: Response): Promise<T> {
     throw new Error(errorBody?.error || "Request failed");
   }
 
+  if (response.status === 204) {
+    return {} as T;
+  }
+
   return (await response.json()) as T;
 }
 
