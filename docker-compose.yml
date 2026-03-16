@@ -31,8 +31,6 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: task-frontend
-    environment:
-      VITE_API_URL: http://localhost:3000
     depends_on:
       - backend
     ports:

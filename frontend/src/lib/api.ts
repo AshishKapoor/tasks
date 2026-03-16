@@ -1,6 +1,6 @@
 import type { Task, TaskStatus } from "@/lib/types";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = "";
 
 async function parseResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
